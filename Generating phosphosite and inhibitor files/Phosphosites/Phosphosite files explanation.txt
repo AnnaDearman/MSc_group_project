@@ -1,4 +1,4 @@
-2020_01_22
+2020_02_08
 
 N.B. Do not save any of these files after opening in Excel! Some gene names are e.g. MARCH1 and they become converted to dates!
 
@@ -44,11 +44,8 @@ phosphosites.csv
 --- Longest string = 141
 - SOURCE
 --- URL for the substrate's phosphosite.org web page, where applicable
---- or "phospsho.ELM"
+--- or "http://phospho.elm.eu.org/"
 --- Longest string = 66
-- SEQUENCE
---- Protein amino acid sequence for records from phospho.ELM
---- Longest string = 8797
 - PMID
 --- Evidentiary research article's PubMed ID for records from phospho.ELM
 --- Longest string = 8
@@ -96,7 +93,7 @@ kinases_phosphosites.csv
 --- Longest string = 141
 - SOURCE
 --- URL for the substrate's phosphosite.org web page, where applicable
---- or "phospsho.ELM"
+--- or "http://phospho.elm.eu.org/"
 --- MUST BE DISPLAYED ON WEB SITE AS PER TERMS AND CONDITIONS OF DATA USAGE
 --- Longest string = 64
 - SEQUENCE
