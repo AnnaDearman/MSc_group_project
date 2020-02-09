@@ -359,6 +359,20 @@ def data_analysis(path, filename):
         df_submean2 = df_submean2[['Kinase','Kinase_RAS','Log_Fold_Change','p_value','Number_of_substrates','Std_Dev']]
         df_submean2.to_csv(os.path.join(application.config['DOWNLOAD_FOLDER'], f'table4{inh}_analysis.csv'))
 
+        global df_submean2_top10
+        global df_submean2_bot10
+        global df_submean2_20
+        df_submean2_top10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=False)
+        df_submean2_top10 = df_submean2_top10.reset_index(drop=True)
+        df_submean2_top10 = df_submean2_top10.loc[0:10]
+        df_submean2_bot10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=True)
+        df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
+        df_submean2_bot10 = df_submean2_bot10.loc[0:10]
+        df_submean2_bot10 = df_submean2_bot10.sort_values(by=['Kinase_RAS'],ascending=False)
+        df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
+        df_submean2_20 = pd.concat([df_submean2_top10,df_submean2_bot10],axis=0)
+        df_submean2_20 = df_submean2_20.rese_index(drop=True)
+
         Bon_cor = -math.log10(0.05/len(df1['p_value']))
 
     ### set a Significant? colum to show significance of the p_value
@@ -383,13 +397,13 @@ def data_analysis(path, filename):
 
     ### show relative activity by a bar plot
         global fig2
-        fig2 = px.bar(df_subgroub,
-                     x = 'Kinase',
-                     y = 'Kinase_RAS',
-                     color = 'Effect',
-                     text = 'Significance',
-                     error_y = 'Std_Dev',
-                     hover_data = ['p_value', 'Number_of_substrates'])
+        fig2 = px.bar(df_subgroub.sort_values(by=['Kinase_RAS']),
+            x = 'Kinase',
+            y = 'Kinase_RAS',
+            color = 'Effect',
+            text = 'Significance',
+            error_y = 'Std_Dev',
+            hover_data = ['p_value', 'Number_of_substrates'])
     
         fig2.update_traces(textposition='outside')
         fig.update_layout(title_text=inh)
@@ -552,7 +566,7 @@ def redgen():
 @application.route('/uploads/<filename>')
 def uploaded_file(filename):
     form = SearchForm()
-    return render_template('datanalysis.html',tables4=[df_submean2.to_html(classes='data')], titles4=df_submean2.columns.values, form=form)
+    return render_template('datanalysis.html',tables4=[df_submean2_20.to_html(classes='data')], titles4=df_submean2_20.columns.values, form=form)
 
 #Download the phosphosites-kinases table with kinases match, and phosphosites with no kinase match (from the downloads folder)
 @application.route('/download/table1')
