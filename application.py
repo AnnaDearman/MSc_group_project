@@ -371,7 +371,7 @@ def data_analysis(path, filename):
         df_submean2_bot10 = df_submean2_bot10.sort_values(by=['Kinase_RAS'],ascending=False)
         df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
         df_submean2_20 = pd.concat([df_submean2_top10,df_submean2_bot10],axis=0)
-        df_submean2_20 = df_submean2_20.rese_index(drop=True)
+        df_submean2_20 = df_submean2_20.reset_index(drop=True)
 
         Bon_cor = -math.log10(0.05/len(df1['p_value']))
 
