@@ -28,7 +28,9 @@ import pandas as pd
 # In[ ]:
 
 
-engine = create_engine('sqlite:///c:\\sqlite\\final_database.db', echo=True)
+# engine = create_engine('sqlite:///c:\\sqlite\\final_database.db', echo=True)
+
+engine = create_engine('sqlite:///c__sqlite_final_database.db', echo=True)
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -83,14 +85,13 @@ class Phosphosites(Base):
     MS_CST = Column(Integer)
     CST_CAT = Column(String(141))
     SOURCE = Column(String(66))
-    SEQUENCE = Column(String(3500))
     PMID = Column(String(8))
     PHOS_ID5 = Column(String(24), primary_key=True)
     PHOS_ID = Column(String(31))
     PHOS_ID2 = Column(String(26))
     PHOS_ID3 = Column(String(32))
     PHOS_ID4 = Column(String(25))
-    ISOFORM = Column(Integer)
+    ISOFORM = Column(String(10))
     ID_PH = Column(String(9))
 
 
@@ -122,7 +123,6 @@ class KinasesPhosphosites(Base):
     IN_VITRO_RXN = Column(String(1))
     CST_CAT = Column(String(141))
     SOURCE = Column(String(64))
-    SEQUENCE = Column(String(8797))
     PMID = Column (String(8))
     PHOS_ID5 = Column(String(23), ForeignKey('phosphosites.PHOS_ID5'))
     PHOS_ID = Column(String(31))
@@ -141,10 +141,10 @@ class PhosphositesDiseases(Base):
     DISEASE = Column(String(92))
     ALTERATION = Column(String(32))
     ACC_ID = Column(String(16))
-    PMIDs = Column(String(8))
-    LT_LIT = Column(Integer)
-    MS_LIT = Column(Integer)
-    MS_CST = Column(Integer)
+    PMIDs = Column(String(20))
+    LT_LIT = Column(String(20))
+    MS_LIT = Column(String(20))
+    MS_CST = Column(String(20))
     CST_CAT = Column(String(141))
     NOTES = Column(String(314))
     PHOS_ID = Column(String(22), ForeignKey('phosphosites.PHOS_ID5'))  # duplicates
@@ -251,15 +251,14 @@ for p in range(len(phosphosites)):
         "MS_CST" : phosphosites.iloc[p, 11],
         "CST_CAT" : phosphosites.iloc[p, 12],
         "SOURCE" : phosphosites.iloc[p, 13],
-        "SEQUENCE" : phosphosites.iloc[p, 14],
-        "PMID" : phosphosites.iloc[p, 15],
-        "PHOS_ID5" : phosphosites.iloc[p, 16],
-        "PHOS_ID" : phosphosites.iloc[p, 17],
-        "PHOS_ID2" : phosphosites.iloc[p, 18],
-        "PHOS_ID3" : phosphosites.iloc[p, 19],
-        "PHOS_ID4" : phosphosites.iloc[p, 20],
-        "ISOFORM" : phosphosites.iloc[p, 21],
-        "ID_PH" : phosphosites.iloc[p, 22]
+        "PMID" : str(phosphosites.iloc[p, 14]), # turning into a string to avoid the data being corrupted
+        "PHOS_ID5" : phosphosites.iloc[p, 15],
+        "PHOS_ID" : phosphosites.iloc[p, 16],
+        "PHOS_ID2" : phosphosites.iloc[p, 17],
+        "PHOS_ID3" : phosphosites.iloc[p, 18],
+        "PHOS_ID4" : phosphosites.iloc[p, 19],
+        "ISOFORM" : str(phosphosites.iloc[p, 20]),
+        "ID_PH" : phosphosites.iloc[p, 21]
     })
     session.add(record) # add all the records
 
@@ -306,15 +305,14 @@ for kp in range(len(phospho_kinases)):
         "IN_VITRO_RXN" : phospho_kinases.iloc[kp, 4],
         "CST_CAT" : phospho_kinases.iloc[kp, 5],
         "SOURCE" : phospho_kinases.iloc[kp, 6],
-        "SEQUENCE" : phospho_kinases.iloc[kp, 7],
-        "PMID" : phospho_kinases.iloc[kp, 8],
-        "PHOS_ID5" : phospho_kinases.iloc[kp, 9],
-        "PHOS_ID" : phospho_kinases.iloc[kp, 10],
-        "PHOS_ID2" : phospho_kinases.iloc[kp, 11],
-        "PHOS_ID3" : phospho_kinases.iloc[kp, 12],
-        "PHOS_ID4" : phospho_kinases.iloc[kp, 13],        
-        "KIN_ACC_ID_2" : phospho_kinases.iloc[kp, 14],
-        "ID_KS" : phospho_kinases.iloc[kp, 15]
+        "PMID" : str(phospho_kinases.iloc[kp, 7]), # turning into a string to avoid the data being corrupted
+        "PHOS_ID5" : phospho_kinases.iloc[kp, 8],
+        "PHOS_ID" : phospho_kinases.iloc[kp, 9],
+        "PHOS_ID2" : phospho_kinases.iloc[kp, 10],
+        "PHOS_ID3" : phospho_kinases.iloc[kp, 11],
+        "PHOS_ID4" : phospho_kinases.iloc[kp, 12],        
+        "KIN_ACC_ID_2" : phospho_kinases.iloc[kp, 13],
+        "ID_KS" : phospho_kinases.iloc[kp, 14]
     })
     session.add(record) # add all the records
     
@@ -333,10 +331,10 @@ for dp in range(len(phospho_diseases)):
         "DISEASE" : phospho_diseases.iloc[dp, 0],
         "ALTERATION" : phospho_diseases.iloc[dp, 1],
         "ACC_ID" : phospho_diseases.iloc[dp, 2],
-        "PMIDs" : phospho_diseases.iloc[dp, 3],
-        "LT_LIT" : phospho_diseases.iloc[dp, 4],
-        "MS_LIT" : phospho_diseases.iloc[dp, 5],
-        "MS_CST" : phospho_diseases.iloc[dp, 6],
+        "PMIDs" : str(phospho_diseases.iloc[dp, 3]), # turning into a string to avoid the data being corrupted
+        "LT_LIT" : str(phospho_diseases.iloc[dp, 4]), # turning into a string to avoid the data being corrupted
+        "MS_LIT" : str(phospho_diseases.iloc[dp, 5]), # turning into a string to avoid the data being corrupted
+        "MS_CST" : str(phospho_diseases.iloc[dp, 6]), # turning into a string to avoid the data being corrupted
         "CST_CAT" : phospho_diseases.iloc[dp, 7],
         "NOTES" : phospho_diseases.iloc[dp, 8],
         "PHOS_ID" : phospho_diseases.iloc[dp, 9],
