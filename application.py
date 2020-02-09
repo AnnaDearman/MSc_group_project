@@ -364,10 +364,10 @@ def data_analysis(path, filename):
         global df_submean2_20
         df_submean2_top10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=False)
         df_submean2_top10 = df_submean2_top10.reset_index(drop=True)
-        df_submean2_top10 = df_submean2_top10.loc[0:10]
+        df_submean2_top10 = df_submean2_top10.loc[0:9]
         df_submean2_bot10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=True)
         df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
-        df_submean2_bot10 = df_submean2_bot10.loc[0:10]
+        df_submean2_bot10 = df_submean2_bot10.loc[0:9]
         df_submean2_bot10 = df_submean2_bot10.sort_values(by=['Kinase_RAS'],ascending=False)
         df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
         df_submean2_20 = pd.concat([df_submean2_top10,df_submean2_bot10],axis=0)
