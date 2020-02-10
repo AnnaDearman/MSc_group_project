@@ -81,12 +81,12 @@
 <p> <b>Phosphosite ID:</b> &nbsp; {{ID_PH}} </p>
 <p> <b>Source:</b> &nbsp; <a href="{{SOURCE}}">{{SOURCE}}</a></p>
 <p> <b>Protein</b> &nbsp; {{PROTEIN}} </p>
+<p> <b>Accession ID</b> &nbsp;<a href="https://www.uniprot.org/uniprot/?query={{ACC}}&sort=score"> {{ACC}} </a> </p>
 <p> <b>Domain</b> &nbsp; {{DOMAIN}} </p>
 <p> <b>Residue</b> &nbsp; {{MOD_RSD}} </p>
 <p> <b>Neighbouring Sequence</b> &nbsp; {{SITE_7_AA}} </p>
 <p> <b>Molecular Weight (kD):</b> &nbsp; {{MW_kD}} </p>
 <p> <b>Gene Name</b> &nbsp; {{GENE}} </p>
-<p> <b>Accession ID</b> &nbsp; {{ACC}} </p>
 <p> <b>Human Chromosomal Location</b> &nbsp; {{HU_CHR_LOC}} </p>
 
 
@@ -146,7 +146,7 @@ $(document).ready( function () {
 
 <div id="targetbox">
 
-<table border="1" id="subsection-table">
+<table border="1"  id="subsection-table" style="background: white">
 
 <tr>
 <th><b>Disease</b></th>
@@ -174,9 +174,3 @@ $(document).ready( function () {
 </body>
 
 </html>
-
-
-
-
-
-
