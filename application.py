@@ -1,8 +1,7 @@
-
 #Import statements
 #--------------------------------------------------------------------------------------------------------------------------
 #Basic modules for a Flask app to work (set Flask app, return HTML template for specific @application.route, redirect to a different
-#@application.route, generate URL to a given endpoint.
+#@application.route, generate URL to a given endpoint).
 from flask import Flask, render_template, redirect, url_for
 
 #Modules necessary to set the search engine 
@@ -228,15 +227,15 @@ def data_analysis(path, filename):
         global df3
         df3 = df2.iloc[:, 0:STEP]
         if STEP == 5: # If statement added by AD to include STEP == 3
-        	df3.columns = ['Treat_mean','Fold_change', 'p_value', 'ctrlCV', 'treatCV']
+            df3.columns = ['Treat_mean','Fold_change', 'p_value', 'ctrlCV', 'treatCV']
         else:
-        	df3.columns = ['Treat_mean','Fold_change', 'p_value']
+            df3.columns = ['Treat_mean','Fold_change', 'p_value']
         for i in range(STEP, df2.shape[1], STEP):
             df = df2.iloc[:, i:i+STEP]
             if STEP == 5: # If statement added by AD to include STEP == 3
-            	df.columns = ['Treat_mean','Fold_change', 'p_value', 'ctrlCV', 'treatCV']
+                df.columns = ['Treat_mean','Fold_change', 'p_value', 'ctrlCV', 'treatCV']
             else:
-                df.columns = ['Treat_mean','Fold_change', 'p_value']	
+                df.columns = ['Treat_mean','Fold_change', 'p_value']    
             df3 = df3.append(df, ignore_index = True)
 
         ### form a table with column Substrate and control_mean row binded to itself
@@ -262,8 +261,11 @@ def data_analysis(path, filename):
         ################################
     global inh_len
     inh_len = len(Inhibitor)
+    global df_submeans
+    df_submeans = []
     ### import sample data
     for i in range(inh_len):
+        global inh
         inh = Inhibitor[i]
         df1 = df_transform[df_transform.Inhibitor == inh] 
         df1 = df1.drop(['Inhibitor'], axis = 1)
@@ -362,16 +364,20 @@ def data_analysis(path, filename):
         global df_submean2_top10
         global df_submean2_bot10
         global df_submean2_20
+        global RKA_cols
         df_submean2_top10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=False)
         df_submean2_top10 = df_submean2_top10.reset_index(drop=True)
-        df_submean2_top10 = df_submean2_top10.loc[0:9]
+        df_submean2_top10 = df_submean2_top10.loc[0:10]
         df_submean2_bot10 = df_submean2.sort_values(by=['Kinase_RAS'],ascending=True)
         df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
-        df_submean2_bot10 = df_submean2_bot10.loc[0:9]
+        df_submean2_bot10 = df_submean2_bot10.loc[0:10]
         df_submean2_bot10 = df_submean2_bot10.sort_values(by=['Kinase_RAS'],ascending=False)
         df_submean2_bot10 = df_submean2_bot10.reset_index(drop=True)
         df_submean2_20 = pd.concat([df_submean2_top10,df_submean2_bot10],axis=0)
         df_submean2_20 = df_submean2_20.reset_index(drop=True)
+        RKA_cols = df_submean2_20.columns.values
+        df_submean2_20 = df_submean2_20.to_html(classes="data")
+        df_submeans.append(df_submean2_20)
 
         Bon_cor = -math.log10(0.05/len(df1['p_value']))
 
@@ -566,37 +572,39 @@ def redgen():
 @application.route('/uploads/<filename>')
 def uploaded_file(filename):
     form = SearchForm()
-    return render_template('datanalysis.html',tables4=[df_submean2_20.to_html(classes='data')], titles4=df_submean2_20.columns.values, form=form)
+    return render_template('datanalysis.html', len= len(Inhibitor), Inhibitor= Inhibitor, tables4=[df_submeans], titles4=RKA_cols, form=form)
 
 #Download the phosphosites-kinases table with kinases match, and phosphosites with no kinase match (from the downloads folder)
-@application.route('/download/table1')
-def download_table1():
-    return send_from_directory(application.config['DOWNLOAD_FOLDER'], 'table1_analysis.csv' , as_attachment=True)
+@application.route('/download/table1/<inhibitor>')
+def download_table1(inhibitor):
+    return send_from_directory(application.config['DOWNLOAD_FOLDER'], filename='table1'+inhibitor+'_analysis.csv' , as_attachment=True)
 
 #Download the phosphosites-kinases table with only the phosphosites for which a kinase match was found (from the downloads folder)
-@application.route('/download/table2')
-def download_table2():
-    return send_from_directory(application.config['DOWNLOAD_FOLDER'], 'table2_analysis.csv' , as_attachment=True)
+@application.route('/download/table2/<inhibitor>')
+def download_table2(inhibitor):
+    return send_from_directory(application.config['DOWNLOAD_FOLDER'], filename='table2'+inhibitor+'_analysis.csv' , as_attachment=True)
 
 #Download the phosphosites-kinases table with the phosphosites for which no kinase match was found (from the downloads folder)
-@application.route('/download/table3')
-def download_table3():
-    return send_from_directory(application.config['DOWNLOAD_FOLDER'], 'table3_analysis.csv' , as_attachment=True)
+@application.route('/download/table3/<inhibitor>')
+def download_table3(inhibitor):
+    return send_from_directory(application.config['DOWNLOAD_FOLDER'], filename='table3'+inhibitor+'_analysis.csv'  , as_attachment=True)
 
 #Download the relative kinase activity table (from the downloads folder)
-@application.route('/download/table4')
-def download_table4():
-    return send_from_directory(application.config['DOWNLOAD_FOLDER'], 'table4_analysis.csv' , as_attachment=True)
+@application.route('/download/table4/<inhibitor>')
+def download_table4(inhibitor):
+    return send_from_directory(application.config['DOWNLOAD_FOLDER'], filename='table4'+inhibitor+'_analysis.csv' , as_attachment=True)
 
 #Show Interactive version of the volcano plot
-@application.route('/volcanoplot')
-def volcanoplot():
-    return render_template('Volcano.html')
+@application.route('/volcanoplot/<inhibitor>')
+def volcanoplot(inhibitor):
+    template= 'Volcano'+inhibitor+'.html'
+    return render_template(template)
 
 #Show Interactive version of the relative kinase activity bar plot
-@application.route('/RKAplot')
-def RKAplot():
-    return render_template('Kinase_RKA_barplot.html')
+@application.route('/RKAplot/<inhibitor>')
+def RKAplot(inhibitor):
+    template= 'Kinase_RKA_barplot' + inhibitor+'.html'
+    return render_template(template)
 #---------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 #Hits pages
@@ -751,5 +759,3 @@ def inhibitor(inhibitor_name):
 #--------------------------------------------------------------------------------------------------------------------------  
 if __name__ == '__main__':
     application.run()
-
-
