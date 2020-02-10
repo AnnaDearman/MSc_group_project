@@ -118,9 +118,9 @@
 
         <a href="/download/table4"> Download this table </a>
 
-        {% for table in tables4[i] %}
+        {% for table in tables4 %}
             <!-- {{titles4[loop.index]}} -->
-            {{ table|safe }}
+            {{ table[i]|safe }}
         {% endfor %}
 
     </div>
