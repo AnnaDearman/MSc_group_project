@@ -100,12 +100,12 @@ JACKY was built by retrieving data from the following websites: </p>
 <b>The file should follow the following format</b>. The correct ordering of the columns is essential for the analysis to work, though the column headers do not matter. For <b>one</b> inhibitor, follow the format below, noting that <b>the last two columns are optional</b>. For <b>multiple</b> inhibitors, columns 1-2 must only be present once, columns 6-7 are optional, and columns 3-5 (or 3-7) should be repeated once for each inhibitor. </p>
 <img src="/static/file_structure.jpg" style="width:640px;height:220px;">
 
-<p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px">Each substrate in the file is matched to the kinase that phosphorylates it by searching JACKY, and the relative kinase activity (RKA) of each kinase is calculated. This information is returned as four tables and two figures, all of which can be downloaded. 
-The first table shows the RKA of each kinase, as well as other information on each kinase:</p>
+<p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px">Each substrate in the file is matched to the kinase that phosphorylates it by searching JACKY, and the relative activity score (RAS) of each kinase is calculated. This information is returned as four tables and two figures, all of which can be downloaded. 
+The first table will appear on the website, and shows the RAS of the 10 most enhanced and 10 most inhibited kinases, as well as the log fold change, p-value and number of substrates:</p>
 
 <img src="/static/RKA_table.jpg" style="width:700px;height:300px;">
 
-<p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px">The kinases RKA is also shown on a bar plot.</p>
+<p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px">The full version, listing all kinases, can be downloaded. The kinases' RAS are also shown on a bar plot.</p>
 <p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px">The second table shows each substrate on the file submitted and the kinase that phosphorylates them, as well as other information on each phosphosite,
 For some substrates, a kinase match may not be found on JACKY. The third table has the same columns as the second one, but contains only the substrates for which a kinase match was not found, while the fourth table contains only the substrates for which a kinase match was found. </p>
 <p style="font-family: verdana ; padding-left: 3px; padding-right: 3px; font-size: 11px"> A volcano plot shows the substrates plotted according to their log fold change (x axis) and their negative log10p (y axis).</p>
