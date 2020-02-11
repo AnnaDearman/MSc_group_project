@@ -213,8 +213,9 @@ $(document).ready( function () {
 
 {% for x in searchkininhibitors %}
 <tr>
-<td> <a href="/inh/redirect/{{x.Inhibitor}}"> {{x.Inhibitor}}</a></td>
-<td> {{x.Source}} </td>
+<td> <a href="/inh/redirect/{{x.Molecule_name}}"> {{x.Molecule_name}}</a></td>
+<td> {{x.BindingDB_ID}} </td>
+<td> {{x.chEMBL_ID}} </td>
 </tr>
     {% endfor %}
 
