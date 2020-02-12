@@ -27,7 +27,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, create_engine, or_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-engine = create_engine('sqlite:///c__sqlite_final_database_v7.db', echo = True, connect_args={'check_same_thread': False}) #Connect database to Flask app
+engine = create_engine('sqlite:///c__sqlite_final_database_v8.db', echo = True, connect_args={'check_same_thread': False}) #Connect database to Flask app
 Base = declarative_base() #Construct a base class for declarative class definitions.
 Session = sessionmaker(bind = engine) #Set Session, necessary to query the database (see any of the classes under #Hits pages for example)
 session = Session()
@@ -656,7 +656,7 @@ def phosphositesearchnseq(phosphosite_search):
 @application.route('/prot/<phosphosite_search>', methods=['GET', 'POST'])
 def phosphositesearchprot(phosphosite_search):
     form = SearchForm()
-    resultss = session.query(Phosphosites).filter(Phosphosites.PROTEIN.startswith(phosphosite_search)).all() #Query the Phosphosites table on the database for entries on the PROTEIN column that start with the protein entered by the user
+    resultss = session.query(Phosphosites).filter(or_(Phosphosites.PROTEIN.startswith(phosphosite_search),Phosphosites.GENE.startswith(phosphosite_search))).all() #Query the Phosphosites table on the database for entries on the PROTEIN column that start with the protein entered by the user
     protein_name = None
     if form.validate_on_submit(): #If the user searches a phosphosite by protein while being on this page
         protein_name = form.protein_name.data
