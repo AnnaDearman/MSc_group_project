@@ -1,5 +1,7 @@
 # MSc_group_project
 A copy of my fork from our private MSc group project: JACKY, a human kinase database.
+I have included the folders I was most havily involved in. Please see my repository
+"MSc_group_project_everybodys_contributions" for the entire project.
 
 During our MSc in Bioinformatics, our team of five students created this web app in six weeks.
 
