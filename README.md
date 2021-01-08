@@ -5,7 +5,7 @@ I have included the folders I was most heavily involved in. Please see my reposi
 
 During our MSc in Bioinformatics, our team of five students created this web app in six weeks.
 
-http://jacky-03.ehym3crjpy.eu-west-2.elasticbeanstalk.com/
+http://jacky-03.ehym3crjpy.eu-west-2.elasticbeanstalk.com/ (now deactivated)
 
 My roles within our group project were:
 
